@@ -10,6 +10,20 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
+// API Endpoints
+app.get("/api/players", (req, res) => {
+  res.json(players);
+});
+
+app.get("/api/players/:id", (req, res) => {
+  const playerId = parseInt(req.params.id);
+  const player = players.find((p) => p.id === playerId);
+  if (player) {
+    res.json(player);
+  } else {
+    res.status(404).json({ message: "Player not found" });
+  }
+});
 
 // Start the server
 app.listen(PORT, () => {
