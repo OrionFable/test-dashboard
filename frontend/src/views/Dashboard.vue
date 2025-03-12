@@ -1,23 +1,29 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { getAllPlayers } from "../services/playerService";
+// import { useRouter } from "vue-router";
 
-interface User {
-  id: string;
-  name: string;
-  goals: string;
-  assists: string;
-  rebound: string;
+interface Player {
+  id: number;
+  player: string;
+  team: string;
+  position: string;
+  matches_played: number;
+  goals_scored: number;
+  assists: number;
+  yellow_cards: number;
+  red_cards: number;
 }
 
-const testUser: User = {
-  id: "1",
-  name: "John Doe",
-  goals: "5",
-  assists: "3",
-  rebound: "6",
-};
+const players = ref<Player[]>([]);
 
-const users = ref<User[]>([...Array(10).keys()].map(() => testUser));
+onMounted(async () => {
+  try {
+    players.value = await getAllPlayers();
+  } catch (error) {
+    console.error("Error fetching players:", error);
+  }
+});
 </script>
 
 <template>
@@ -179,7 +185,7 @@ const users = ref<User[]>([...Array(10).keys()].map(() => testUser));
             </thead>
 
             <tbody class="bg-white">
-              <tr v-for="(u, index) in users" :key="index">
+              <tr v-for="(u, index) in players" :key="index">
                 <td
                   class="px-6 py-4 border-b border-gray-200 whitespace-nowrap text-center"
                 >
@@ -188,30 +194,28 @@ const users = ref<User[]>([...Array(10).keys()].map(() => testUser));
                 <td
                   class="px-6 py-4 border-b border-gray-200 whitespace-nowrap"
                 >
-                  <div class="flex items-center justify-center">
-                    <div class="flex-shrink-0 w-10 h-10">
-                      <img
-                        class="w-10 h-10 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </div>
-                    {{ u.name }}
+                  <div class="text-sm font-medium leading-5 text-gray-900">
+                    {{ u.player }}
+                  </div>
+                  <div class="text-sm leading-5 text-gray-500">
+                    {{ u.team }}
                   </div>
                 </td>
-
-                <!-- <td
-                  class="px-6 py-4 border-b border-gray-200 whitespace-nowrap"
+                <td
+                  class="px-6 py-4 border-b border-gray-200 whitespace-nowrap text-center"
                 >
-                  <span
-                    class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full"
-                    >{{ u.rebound }}</span
-                  >
-                </td> -->
+                  {{ u.position }}
+                </td>
                 <td
                   class="px-6 py-4 text-sm leading-5 text-gray-500 border-b border-gray-200 whitespace-nowrap text-center"
                 >
-                  {{ u.goals }}
+                  {{ u.matches_played }}
+                </td>
+
+                <td
+                  class="px-6 py-4 text-sm leading-5 text-gray-500 border-b border-gray-200 whitespace-nowrap text-center"
+                >
+                  {{ u.goals_scored }}
                 </td>
 
                 <td
@@ -220,9 +224,14 @@ const users = ref<User[]>([...Array(10).keys()].map(() => testUser));
                   {{ u.assists }}
                 </td>
                 <td
-                  class="px-6 py-4 text-sm leading-5 text-gray-500 border-b border-gray-200 whitespace-nowrap text-center"
+                  class="px-6 py-4 border-b border-gray-200 whitespace-nowrap"
                 >
-                  {{ u.rebound }}
+                  <div class="text-sm leading-5 text-gray-900">
+                    {{ u.yellow_cards }}
+                  </div>
+                  <div class="text-sm leading-5 text-gray-500">
+                    {{ u.red_cards }}
+                  </div>
                 </td>
                 <!-- <td
                   class="px-6 py-4 text-sm font-medium leading-5 text-right border-b border-gray-200 whitespace-nowrap"
