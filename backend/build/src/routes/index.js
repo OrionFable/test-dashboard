@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const playerRoute_1 = __importDefault(require("./playerRoute"));
 class Routes {
     constructor(app) {
-        app.use("/api", playerRoute_1.default);
+        app.use("/api/players", playerRoute_1.default);
     }
 }
 exports.default = Routes;

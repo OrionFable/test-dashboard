@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.soccerPlayers = void 0;
 exports.soccerPlayers = [
     {
+        id: 1,
         player: "Lionel Messi",
         team: "Inter Miami",
         position: "Forward",
@@ -13,6 +14,7 @@ exports.soccerPlayers = [
         red_cards: 0,
     },
     {
+        id: 2,
         player: "Cristiano Ronaldo",
         team: "Al-Nassr",
         position: "Forward",
@@ -23,32 +25,13 @@ exports.soccerPlayers = [
         red_cards: 1,
     },
     {
+        id: 3,
         player: "Kylian Mbappé",
         team: "Paris Saint-Germain",
         position: "Forward",
         matches_played: 32,
         goals_scored: 27,
         assists: 10,
-        yellow_cards: 2,
-        red_cards: 0,
-    },
-    {
-        player: "Erling Haaland",
-        team: "Manchester City",
-        position: "Forward",
-        matches_played: 31,
-        goals_scored: 30,
-        assists: 7,
-        yellow_cards: 1,
-        red_cards: 0,
-    },
-    {
-        player: "Kevin De Bruyne",
-        team: "Manchester City",
-        position: "Midfielder",
-        matches_played: 29,
-        goals_scored: 6,
-        assists: 18,
         yellow_cards: 2,
         red_cards: 0,
     },
