@@ -1,5 +1,6 @@
 export interface SoccerPlayer {
   id: number;
+  no: number;
   player: string;
   team: string;
   position: string;

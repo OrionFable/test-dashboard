@@ -1,11 +1,30 @@
 import axios from "axios";
 
-// Use environment variable for the base URL
-const API_URL = import.meta.env.VUE_APP_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-export const getAllPlayers = async () => {
+const apiClient = axios.create({
+  baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
+
+export interface Player {
+  id: number;
+  no: number;
+  player: string;
+  team: string;
+  position: string;
+  matches_played: number;
+  goals_scored: number;
+  assists: number;
+  yellow_cards: number;
+  red_cards: number;
+}
+
+export const getAllPlayers = async (): Promise<Player[]> => {
   try {
-    const response = await axios.get(`${API_URL}/api/players`);
+    const response = await apiClient.get<Player[]>("/api/players");
     return response.data;
   } catch (error) {
     console.error("Error fetching players:", error);
@@ -13,9 +32,9 @@ export const getAllPlayers = async () => {
   }
 };
 
-export const getPlayerById = async (id: number) => {
+export const getPlayerById = async (id: number): Promise<Player> => {
   try {
-    const response = await axios.get(`${API_URL}/api/players/${id}`);
+    const response = await apiClient.get<Player>(`/api/players/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching player:", error);

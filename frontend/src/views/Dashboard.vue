@@ -1,21 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { getAllPlayers } from "../services/playerService";
-// import { useRouter } from "vue-router";
+import type { Player } from "../services/playerService";
 
-interface Player {
-  id: number;
-  player: string;
-  team: string;
-  position: string;
-  matches_played: number;
-  goals_scored: number;
-  assists: number;
-  yellow_cards: number;
-  red_cards: number;
-}
-
-// const testPlayers =
 const players = ref<Player[]>([]);
 
 onMounted(async () => {
@@ -72,7 +59,9 @@ onMounted(async () => {
             </div>
 
             <div class="mx-5">
-              <h4 class="text-2xl font-semibold text-gray-700">12</h4>
+              <h4 class="text-2xl font-semibold text-gray-700">
+                {{ players.length }}
+              </h4>
               <div class="text-gray-500">All Players</div>
             </div>
           </div>
@@ -97,7 +86,13 @@ onMounted(async () => {
             </div>
 
             <div class="mx-5">
-              <h4 class="text-2xl font-semibold text-gray-700">8</h4>
+              <h4 class="text-2xl font-semibold text-gray-700">
+                {{
+                  players.length
+                    ? Math.max(...players.map((p) => p.matches_played))
+                    : 0
+                }}
+              </h4>
               <div class="text-gray-500">Total Matches</div>
             </div>
           </div>
@@ -143,12 +138,22 @@ onMounted(async () => {
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
                 >
+                  Player Name
+                </th>
+                <th
+                  class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
+                >
                   No
                 </th>
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
                 >
-                  Player Name
+                  Position
+                </th>
+                <th
+                  class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
+                >
+                  Matches
                 </th>
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
@@ -163,9 +168,8 @@ onMounted(async () => {
                 <th
                   class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
                 >
-                  Rebounds
+                  Yellow/Red Cards
                 </th>
-                <!-- <th class="px-6 py-3 border-b border-gray-200 bg-gray-50" /> -->
               </tr>
             </thead>
 
@@ -174,17 +178,17 @@ onMounted(async () => {
                 <td
                   class="px-6 py-4 border-b border-gray-200 whitespace-nowrap text-center"
                 >
-                  {{ u.id }}
-                </td>
-                <td
-                  class="px-6 py-4 border-b border-gray-200 whitespace-nowrap"
-                >
                   <div class="text-sm font-medium leading-5 text-gray-900">
                     {{ u.player }}
                   </div>
                   <div class="text-sm leading-5 text-gray-500">
                     {{ u.team }}
                   </div>
+                </td>
+                <td
+                  class="px-6 py-4 border-b border-gray-200 whitespace-nowrap text-center"
+                >
+                  {{ u.no }}
                 </td>
                 <td
                   class="px-6 py-4 border-b border-gray-200 whitespace-nowrap text-center"
@@ -209,22 +213,10 @@ onMounted(async () => {
                   {{ u.assists }}
                 </td>
                 <td
-                  class="px-6 py-4 border-b border-gray-200 whitespace-nowrap"
+                  class="px-6 py-4 border-b border-gray-200 whitespace-nowrap text-center"
                 >
-                  <div class="text-sm leading-5 text-gray-900">
-                    {{ u.yellow_cards }}
-                  </div>
-                  <div class="text-sm leading-5 text-gray-500">
-                    {{ u.red_cards }}
-                  </div>
+                  {{ u.yellow_cards }} / {{ u.red_cards }}
                 </td>
-                <!-- <td
-                  class="px-6 py-4 text-sm font-medium leading-5 text-right border-b border-gray-200 whitespace-nowrap"
-                >
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                    >Edit</a
-                  >
-                </td> -->
               </tr>
             </tbody>
           </table>

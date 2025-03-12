@@ -11,7 +11,8 @@ export default class Server {
 
   private config(app: Application): void {
     const corsOptions: CorsOptions = {
-      origin: "http://" + process.env.HOST + ":" + process.env.PORT,
+      origin: "*",
+      credentials: true
     };
 
     app.use(cors(corsOptions));
